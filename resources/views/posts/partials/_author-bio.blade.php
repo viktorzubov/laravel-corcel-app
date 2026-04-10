@@ -7,6 +7,7 @@
     <div class="mt-10 pt-8 border-t border-gray-200 dark:border-gray-800 flex gap-5 items-start">
         <img src="https://www.gravatar.com/avatar/{{ md5(strtolower(trim($post->author->user_email))) }}?s=72&d=mp"
              alt="{{ $post->author->display_name }}"
+             loading="lazy"
              class="size-16 rounded-full shrink-0 ring-2 ring-gray-100 dark:ring-gray-800">
         <div class="flex-1 min-w-0">
             <div class="flex flex-wrap items-center gap-x-3 gap-y-1 mb-1">

@@ -37,7 +37,7 @@
                 @foreach ($recentPosts as $post)
                     <a href="{{ route('posts.show', $post->slug) }}"
                        class="group bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-800 overflow-hidden hover:shadow-md transition-shadow flex flex-col">
-                        <img src="{{ $post->thumbnailUrl(600, 300) }}" alt="{{ $post->title }}" class="w-full h-36 object-cover group-hover:opacity-90 transition-opacity">
+                        <img src="{{ $post->thumbnailUrl(600, 300) }}" alt="{{ $post->title }}" loading="lazy" class="w-full h-36 object-cover group-hover:opacity-90 transition-opacity">
                         <div class="p-4 flex flex-col flex-1 gap-1">
                             <h3 class="text-sm font-semibold leading-snug group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors line-clamp-2">
                                 {{ $post->title }}

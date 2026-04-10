@@ -11,6 +11,7 @@
     {{-- Author hero --}}
     <div class="max-w-2xl mx-auto text-center mb-12">
         <img src="https://www.gravatar.com/avatar/{{ md5(strtolower(trim($author->user_email))) }}?s=128&d=mp"
+             loading="lazy"
              alt="{{ $author->display_name }}"
              class="size-24 rounded-full mx-auto mb-4 ring-4 ring-white dark:ring-gray-900 shadow">
 
