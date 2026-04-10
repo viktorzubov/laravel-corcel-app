@@ -37,7 +37,7 @@ class PostController extends Controller
 
         $query = Post::type('post')
             ->published()
-            ->with(['thumbnail', 'author', 'taxonomies.term', 'meta'])
+            ->with(['thumbnail', 'author', 'taxonomies.term', 'viewCountMeta'])
             ->latest('post_date');
 
         if ($activeCategory) {
@@ -61,7 +61,7 @@ class PostController extends Controller
     {
         $post = Post::type('post')
             ->published()
-            ->with(['thumbnail', 'author', 'taxonomies.term'])
+            ->with(['thumbnail', 'author', 'taxonomies.term', 'viewCountMeta'])
             ->slug($slug)
             ->firstOrFail();
 

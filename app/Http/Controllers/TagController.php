@@ -13,7 +13,7 @@ class TagController extends Controller
 
         $posts = Post::type('post')
             ->published()
-            ->with(['thumbnail', 'author'])
+            ->with(['thumbnail', 'author', 'viewCountMeta'])
             ->taxonomy('post_tag', $slug)
             ->latest('post_date')
             ->paginate(9);
