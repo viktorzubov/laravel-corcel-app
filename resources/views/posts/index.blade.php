@@ -12,13 +12,13 @@
         <nav class="flex flex-wrap gap-2 mb-8" aria-label="Filter by category">
             <a href="{{ route('posts.index') }}"
                class="text-sm px-4 py-1.5 rounded-full border transition-colors
-                      {{ ! $activeCategory ? 'bg-indigo-600 border-indigo-600 text-white' : 'border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-400 hover:border-indigo-400 hover:text-indigo-600 dark:hover:text-indigo-400' }}">
+                      {{ ! $activeCategory ? 'bg-indigo-600 border-indigo-600 text-white' : 'border-gray-200 text-gray-600 hover:border-indigo-400 hover:text-indigo-600' }}">
                 All
             </a>
             @foreach ($categories as $cat)
                 <a href="{{ route('posts.index', ['category' => $cat->slug]) }}"
                    class="text-sm px-4 py-1.5 rounded-full border transition-colors
-                          {{ $activeCategory === $cat->slug ? 'bg-indigo-600 border-indigo-600 text-white' : 'border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-400 hover:border-indigo-400 hover:text-indigo-600 dark:hover:text-indigo-400' }}">
+                          {{ $activeCategory === $cat->slug ? 'bg-indigo-600 border-indigo-600 text-white' : 'border-gray-200 text-gray-600 hover:border-indigo-400 hover:text-indigo-600' }}">
                     {{ $cat->name }}
                     <span class="ml-1 opacity-60 text-xs">{{ $cat->count }}</span>
                 </a>
@@ -32,7 +32,7 @@
     @endif
 
     @if ($posts->isEmpty() && ! $featured)
-        <p class="text-gray-500 dark:text-gray-400">No posts found.</p>
+        <p class="text-gray-500">No posts found.</p>
     @else
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             @foreach ($posts as $post)

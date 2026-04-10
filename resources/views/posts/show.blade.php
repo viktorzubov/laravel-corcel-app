@@ -60,7 +60,7 @@
         @endif
 
         {{-- Content --}}
-        <div class="prose prose-gray dark:prose-invert max-w-none" id="post-content">
+        <div class="prose prose-gray max-w-none" id="post-content">
             {!! $processedContent !!}
         </div>
 
@@ -75,7 +75,7 @@
         </div>
 
         @if ($post->comment_status === 'open')
-            <section id="comments" class="mt-16 pt-10 border-t border-gray-200 dark:border-gray-800">
+            <section id="comments" class="mt-16 pt-10 border-t border-gray-200">
                 @include('posts.partials._comments')
                 @include('posts.partials._comment-form')
             </section>

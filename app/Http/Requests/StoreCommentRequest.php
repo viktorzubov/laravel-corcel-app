@@ -13,10 +13,13 @@ class StoreCommentRequest extends FormRequest
 
     public function rules(): array
     {
+        $guestRequired = $this->user() ? 'nullable' : 'required';
+
         return [
-            'author' => ['required', 'string', 'max:100'],
-            'email' => ['required', 'email', 'max:200'],
+            'author' => [$guestRequired, 'string', 'max:100'],
+            'email' => [$guestRequired, 'email', 'max:200'],
             'content' => ['required', 'string', 'max:5000'],
+            'parent_id' => ['nullable', 'integer', 'min:0'],
         ];
     }
 }
