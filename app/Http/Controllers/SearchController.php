@@ -2,28 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Post;
 use App\Services\SearchHighlighter;
+use App\Services\SearchService;
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 
 class SearchController extends Controller
 {
-    public function __invoke(Request $request)
+    public function __construct(private readonly SearchService $searchService) {}
+
+    public function __invoke(Request $request): View
     {
         $query = $request->string('q')->trim()->value();
-
-        $posts = Post::type('post')
-            ->published()
-            ->with(['thumbnail', 'author', 'taxonomies.term'])
-            ->where(function ($q) use ($query) {
-                $q->where('post_title', 'like', "%{$query}%")
-                    ->orWhere('post_content', 'like', "%{$query}%")
-                    ->orWhere('post_excerpt', 'like', "%{$query}%");
-            })
-            ->latest('post_date')
-            ->paginate(9)
-            ->withQueryString();
-
+        $posts = $this->searchService->search($query);
         $highlighter = new SearchHighlighter($query);
 
         return view('search', compact('posts', 'query', 'highlighter'));
