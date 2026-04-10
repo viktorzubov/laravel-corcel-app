@@ -5,23 +5,26 @@ namespace App\Services;
 use App\Models\Post;
 use App\Models\Tag;
 use Corcel\Model\Taxonomy;
+use Illuminate\Support\Facades\Cache;
 use Spatie\Sitemap\Sitemap;
 use Spatie\Sitemap\Tags\Url;
 
 class SitemapService
 {
-    public function build(): Sitemap
+    public function render(): string
     {
-        $sitemap = Sitemap::create()
-            ->add(Url::create('/')->setPriority(1.0)->setChangeFrequency(Url::CHANGE_FREQUENCY_DAILY))
-            ->add(Url::create(route('posts.index'))->setPriority(0.9)->setChangeFrequency(Url::CHANGE_FREQUENCY_DAILY));
+        return Cache::remember('sitemap_xml', 86400, function (): string {
+            $sitemap = Sitemap::create()
+                ->add(Url::create('/')->setPriority(1.0)->setChangeFrequency(Url::CHANGE_FREQUENCY_DAILY))
+                ->add(Url::create(route('posts.index'))->setPriority(0.9)->setChangeFrequency(Url::CHANGE_FREQUENCY_DAILY));
 
-        $this->addPosts($sitemap);
-        $this->addPages($sitemap);
-        $this->addCategories($sitemap);
-        $this->addTags($sitemap);
+            $this->addPosts($sitemap);
+            $this->addPages($sitemap);
+            $this->addCategories($sitemap);
+            $this->addTags($sitemap);
 
-        return $sitemap;
+            return $sitemap->render();
+        });
     }
 
     private function addPosts(Sitemap $sitemap): void

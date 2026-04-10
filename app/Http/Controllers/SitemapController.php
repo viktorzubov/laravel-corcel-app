@@ -11,6 +11,6 @@ class SitemapController extends Controller
 
     public function __invoke(): Response
     {
-        return $this->sitemapService->build()->toResponse(request());
+        return response($this->sitemapService->render(), 200, ['Content-Type' => 'application/xml']);
     }
 }
