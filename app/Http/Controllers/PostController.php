@@ -8,6 +8,7 @@ use Corcel\Model\Comment;
 use Corcel\Model\Taxonomy;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 
 class PostController extends Controller
 {
@@ -17,19 +18,21 @@ class PostController extends Controller
     {
         $activeCategory = $request->query('category');
 
-        $categories = Taxonomy::where('taxonomy', 'category')
-            ->with('term')
-            ->withCount('posts')
-            ->groupBy('term_taxonomy_id')
-            ->having('posts_count', '>', 0)
-            ->get()
-            ->map(fn ($t) => (object) [
-                'slug' => $t->term->slug,
-                'name' => $t->term->name,
-                'count' => $t->posts_count,
-            ])
-            ->sortByDesc('count')
-            ->values();
+        $categories = Cache::remember('post_categories', 3600, function () {
+            return Taxonomy::where('taxonomy', 'category')
+                ->with('term')
+                ->withCount('posts')
+                ->groupBy('term_taxonomy_id')
+                ->having('posts_count', '>', 0)
+                ->get()
+                ->map(fn ($t) => (object) [
+                    'slug' => $t->term->slug,
+                    'name' => $t->term->name,
+                    'count' => $t->posts_count,
+                ])
+                ->sortByDesc('count')
+                ->values();
+        });
 
         $query = Post::type('post')
             ->published()
