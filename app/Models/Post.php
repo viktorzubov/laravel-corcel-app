@@ -2,8 +2,10 @@
 
 namespace App\Models;
 
+use Corcel\Model\Meta\PostMeta;
 use Corcel\Model\Post as Corcel;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Spatie\Feed\Feedable;
 use Spatie\Feed\FeedItem;
 
@@ -79,8 +81,18 @@ class Post extends Corcel implements Feedable
         return $this->thumbnail ?: "https://picsum.photos/seed/{$this->post_name}/{$width}/{$height}";
     }
 
+    public function viewCountMeta(): HasMany
+    {
+        return $this->hasMany(PostMeta::class, 'post_id')
+            ->where('meta_key', 'post_views_count');
+    }
+
     public function viewCount(): int
     {
+        if ($this->relationLoaded('viewCountMeta')) {
+            return (int) ($this->viewCountMeta->first()?->meta_value ?? 0);
+        }
+
         return (int) ($this->getMeta('post_views_count') ?? 0);
     }
 }

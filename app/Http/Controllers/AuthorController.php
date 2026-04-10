@@ -13,7 +13,7 @@ class AuthorController extends Controller
 
         $posts = Post::type('post')
             ->published()
-            ->with(['thumbnail', 'taxonomies.term'])
+            ->with(['thumbnail', 'taxonomies.term', 'viewCountMeta'])
             ->forAuthor($author)
             ->latest('post_date')
             ->paginate(9);

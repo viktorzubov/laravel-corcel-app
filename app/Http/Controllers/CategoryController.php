@@ -13,7 +13,7 @@ class CategoryController extends Controller
 
         $posts = Post::type('post')
             ->published()
-            ->with(['thumbnail', 'author'])
+            ->with(['thumbnail', 'author', 'viewCountMeta'])
             ->taxonomy('category', $slug)
             ->latest('post_date')
             ->paginate(9);
