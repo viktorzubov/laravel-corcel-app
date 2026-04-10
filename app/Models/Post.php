@@ -78,7 +78,7 @@ class Post extends Corcel implements Feedable
 
     public function thumbnailUrl(int $width = 800, int $height = 450): string
     {
-        return $this->thumbnail ?: "https://picsum.photos/seed/{$this->post_name}/{$width}/{$height}";
+        return $this->thumbnail ?: asset('images/default-thumbnail.jpg');
     }
 
     public function viewCountMeta(): HasMany

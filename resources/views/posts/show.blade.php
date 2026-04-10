@@ -6,7 +6,7 @@
 @section('description', strip_tags($post->excerpt) ?: strip_tags(Str::limit($post->content, 160)))
 @section('og_type', 'article')
 @section('canonical', route('posts.show', $post->slug))
-@section('og_image', $post->thumbnail ?: 'https://picsum.photos/seed/' . $post->post_name . '/1200/630')
+@section('og_image', $post->thumbnailUrl(1200, 630))
 
 @push('head')
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/github.min.css" media="(prefers-color-scheme: light), not all">
