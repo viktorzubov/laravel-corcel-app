@@ -18,21 +18,22 @@ class PostController extends Controller
     {
         $activeCategory = $request->query('category');
 
-        $categories = Cache::remember('post_categories', 3600, function () {
+        $categories = collect(Cache::remember('post_categories', 3600, function () {
             return Taxonomy::where('taxonomy', 'category')
                 ->with('term')
                 ->withCount('posts')
                 ->groupBy('term_taxonomy_id')
                 ->having('posts_count', '>', 0)
                 ->get()
-                ->map(fn ($t) => (object) [
+                ->map(fn ($t) => [
                     'slug' => $t->term->slug,
                     'name' => $t->term->name,
                     'count' => $t->posts_count,
                 ])
                 ->sortByDesc('count')
-                ->values();
-        });
+                ->values()
+                ->all();
+        }))->map(fn (array $item) => (object) $item);
 
         $query = Post::type('post')
             ->published()
