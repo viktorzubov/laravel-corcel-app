@@ -10,7 +10,7 @@
         "laravel-best-practices",
         "tailwindcss-development",
         "laravel-specialist",
-        "php-pro",
-        "git-flow"
+        "php-best-practices",
+        "php-pro"
     ]
 }
