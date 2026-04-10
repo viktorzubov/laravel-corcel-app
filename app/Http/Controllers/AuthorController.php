@@ -2,19 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Author;
 use App\Models\Post;
-use Corcel\Model\User;
 
 class AuthorController extends Controller
 {
     public function show(string $username)
     {
-        $author = User::where('user_nicename', $username)->firstOrFail();
+        $author = Author::byNicename($username)->firstOrFail();
 
         $posts = Post::type('post')
             ->published()
             ->with(['thumbnail', 'taxonomies.term'])
-            ->where('post_author', $author->ID)
+            ->forAuthor($author)
             ->latest('post_date')
             ->paginate(9);
 
