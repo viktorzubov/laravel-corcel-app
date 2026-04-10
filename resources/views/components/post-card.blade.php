@@ -2,6 +2,7 @@
     <a href="{{ route('posts.show', $post->slug) }}">
         <img src="{{ $post->thumbnailUrl($compact ? 600 : 800, $compact ? 300 : 450) }}"
              alt="{{ $post->title }}"
+             loading="lazy"
              class="w-full {{ $compact ? 'h-36' : 'h-48' }} object-cover">
     </a>
     <div class="{{ $compact ? 'p-4 gap-2' : 'p-5 gap-3' }} flex flex-col flex-1">

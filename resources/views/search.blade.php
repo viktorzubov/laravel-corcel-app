@@ -33,7 +33,7 @@
                     <article class="bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-800 hover:shadow-md transition-shadow flex gap-5 p-5">
                         @php $postImg = $post->thumbnailUrl(400, 280); @endphp
                         <a href="{{ route('posts.show', $post->slug) }}" class="shrink-0">
-                            <img src="{{ $postImg }}" alt="{{ $post->title }}" class="w-28 h-20 object-cover rounded-lg">
+                            <img src="{{ $postImg }}" alt="{{ $post->title }}" loading="lazy" class="w-28 h-20 object-cover rounded-lg">
                         </a>
                         <div class="flex flex-col flex-1 gap-1.5 min-w-0">
                             <div class="flex flex-wrap gap-2">

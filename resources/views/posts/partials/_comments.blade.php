@@ -13,6 +13,7 @@
     <div class="mb-8">
         <div class="flex gap-4">
             <img src="https://www.gravatar.com/avatar/{{ md5(strtolower(trim($comment->comment_author_email))) }}?s=40&d=mp"
+                 loading="lazy"
                  alt="{{ $comment->comment_author }}"
                  class="size-10 rounded-full shrink-0">
             <div class="flex-1">
@@ -28,6 +29,7 @@
         @foreach ($comment->replies->where('comment_approved', '1') as $reply)
             <div class="mt-4 ml-14 flex gap-4">
                 <img src="https://www.gravatar.com/avatar/{{ md5(strtolower(trim($reply->comment_author_email))) }}?s=36&d=mp"
+                     loading="lazy"
                      alt="{{ $reply->comment_author }}"
                      class="size-9 rounded-full shrink-0">
                 <div class="flex-1">

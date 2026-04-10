@@ -3,6 +3,7 @@
     <div class="grid grid-cols-1 md:grid-cols-2">
         <div class="overflow-hidden max-h-72 md:max-h-none">
             <img src="{{ $post->thumbnailUrl(1200, 600) }}" alt="{{ $post->title }}"
+                 loading="lazy"
                  class="w-full h-full object-cover group-hover:scale-[1.02] transition-transform duration-500">
         </div>
         <div class="p-7 flex flex-col justify-center gap-3">
