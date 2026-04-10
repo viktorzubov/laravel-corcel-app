@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreCommentRequest;
 use App\Models\Post;
 use Corcel\Model\Comment;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 
 class CommentController extends Controller
 {
-    public function store(Request $request, string $slug): RedirectResponse
+    public function store(StoreCommentRequest $request, string $slug): RedirectResponse
     {
         $post = Post::type('post')
             ->published()
@@ -18,13 +18,9 @@ class CommentController extends Controller
 
         abort_unless($post->comment_status === 'open', 403);
 
-        $validated = $request->validate([
-            'author'  => ['required', 'string', 'max:100'],
-            'email'   => ['required', 'email', 'max:200'],
-            'content' => ['required', 'string', 'max:5000'],
-        ]);
+        $validated = $request->validated();
 
-        $comment = new Comment();
+        $comment = new Comment;
         $comment->comment_post_ID = $post->ID;
         $comment->comment_author = $validated['author'];
         $comment->comment_author_email = $validated['email'];
@@ -45,4 +41,3 @@ class CommentController extends Controller
             ->with('comment_success', 'Your comment has been posted.');
     }
 }
-
