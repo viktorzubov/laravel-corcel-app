@@ -3,14 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
+use App\Services\PostService;
 use Corcel\Model\Comment;
 use Corcel\Model\Taxonomy;
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
 
 class PostController extends Controller
 {
-    public function index(Request $request)
+    public function __construct(private readonly PostService $postService) {}
+
+    public function index(Request $request): View
     {
         $activeCategory = $request->query('category');
 
@@ -50,7 +53,7 @@ class PostController extends Controller
         return view('posts.index', compact('posts', 'featured', 'categories', 'activeCategory'));
     }
 
-    public function show(string $slug)
+    public function show(string $slug): View
     {
         $post = Post::type('post')
             ->published()
@@ -71,25 +74,12 @@ class PostController extends Controller
         $previousPost = Post::previousTo($post)->first();
         $nextPost = Post::nextTo($post)->first();
 
-        $viewCount = $post->viewCount() + 1;
-        $post->saveMeta('post_views_count', $viewCount);
-
-        $headings = [];
-        $processedContent = preg_replace_callback(
-            '/<h2([^>]*)>(.*?)<\/h2>/is',
-            function ($m) use (&$headings) {
-                $text = strip_tags($m[2]);
-                $id = Str::slug($text);
-                $headings[] = ['id' => $id, 'text' => $text];
-
-                return '<h2'.$m[1].' id="'.$id.'">'.$m[2].'</h2>';
-            },
-            $post->content
-        );
-
+        $viewCount = $this->postService->incrementViewCount($post);
+        $headings = $this->postService->extractHeadings($post->content);
+        $processedContent = $this->postService->processContent($post->content);
         $commentCount = $comments->count() + $comments->sum(fn ($c) => $c->replies->count());
-        $shareUrl = urlencode(route('posts.show', $post->slug));
-        $shareTitle = urlencode($post->title);
+        $shareUrl = $this->postService->shareUrl($post);
+        $shareTitle = $this->postService->shareTitle($post);
 
         return view('posts.show', compact(
             'post', 'related', 'comments', 'previousPost', 'nextPost',
