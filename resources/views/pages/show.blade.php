@@ -7,7 +7,7 @@
     <article class="max-w-2xl mx-auto">
         <h1 class="text-3xl font-bold mb-8">{{ $page->title }}</h1>
 
-        <div class="prose prose-gray dark:prose-invert max-w-none">
+        <div class="prose prose-gray max-w-none">
             {!! $page->content !!}
         </div>
     </article>

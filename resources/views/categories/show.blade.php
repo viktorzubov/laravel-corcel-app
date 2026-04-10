@@ -10,7 +10,7 @@
     </div>
 
     @if ($posts->isEmpty())
-        <p class="text-gray-500 dark:text-gray-400">No posts in this category.</p>
+        <p class="text-gray-500">No posts in this category.</p>
     @else
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             @foreach ($posts as $post)

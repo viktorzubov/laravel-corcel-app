@@ -1,4 +1,4 @@
-<article class="bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-800 overflow-hidden hover:shadow-md transition-shadow flex flex-col">
+<article class="bg-white rounded-xl border border-gray-200 overflow-hidden hover:shadow-md transition-shadow flex flex-col">
     <a href="{{ route('posts.show', $post->slug) }}">
         <img src="{{ $post->thumbnailUrl($compact ? 600 : 800, $compact ? 300 : 450) }}"
              alt="{{ $post->title }}"
@@ -11,7 +11,7 @@
             <div class="flex flex-wrap gap-2">
                 @foreach (($post->terms['category'] ?? []) as $catSlug => $catName)
                     <a href="{{ route('posts.index', ['category' => $catSlug]) }}"
-                       class="text-xs font-semibold text-indigo-600 dark:text-indigo-400 uppercase tracking-wide hover:underline">
+                       class="text-xs font-semibold text-indigo-600 uppercase tracking-wide hover:underline">
                         {{ $catName }}
                     </a>
                 @endforeach
@@ -20,23 +20,23 @@
 
         @if ($compact)
             <h3 class="text-sm font-semibold leading-snug">
-                <a href="{{ route('posts.show', $post->slug) }}" class="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">
+                <a href="{{ route('posts.show', $post->slug) }}" class="hover:text-indigo-600 transition-colors">
                     {{ $post->title }}
                 </a>
             </h3>
         @else
             <h2 class="text-lg font-semibold leading-snug">
-                <a href="{{ route('posts.show', $post->slug) }}" class="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">
+                <a href="{{ route('posts.show', $post->slug) }}" class="hover:text-indigo-600 transition-colors">
                     {{ $post->title }}
                 </a>
             </h2>
         @endif
 
         @if ($showExcerpt && ! $compact && $post->excerpt)
-            <p class="text-sm text-gray-500 dark:text-gray-400 line-clamp-3">{{ strip_tags($post->excerpt) }}</p>
+            <p class="text-sm text-gray-500 line-clamp-3">{{ strip_tags($post->excerpt) }}</p>
         @endif
 
-        <div class="mt-auto flex items-center justify-between text-xs text-gray-400 dark:text-gray-500">
+        <div class="mt-auto flex items-center justify-between text-xs text-gray-400">
             <span>{{ $post->post_date?->format('M j, Y') }}</span>
 
             @if (! $compact)
@@ -59,7 +59,7 @@
                     @endif
                     @if ($showAuthor && $post->author)
                         <a href="{{ route('author.show', $post->author->slug) }}"
-                           class="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">
+                           class="hover:text-indigo-600 transition-colors">
                             {{ $post->author->display_name }}
                         </a>
                     @endif

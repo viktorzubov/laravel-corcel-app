@@ -4,7 +4,7 @@
 </h2>
 
 @if (session('comment_success'))
-    <div class="mb-6 rounded-lg bg-green-50 dark:bg-green-900/30 border border-green-200 dark:border-green-800 px-4 py-3 text-sm text-green-700 dark:text-green-400">
+    <div class="mb-6 rounded-lg bg-green-50 border border-green-200 px-4 py-3 text-sm text-green-700">
         {{ session('comment_success') }}
     </div>
 @endif
@@ -18,12 +18,18 @@
                  class="size-10 rounded-full shrink-0">
             <div class="flex-1">
                 <div class="flex items-baseline gap-3 mb-1">
-                    <span class="text-sm font-semibold text-gray-900 dark:text-gray-100">{{ $comment->comment_author }}</span>
-                    <span class="text-xs text-gray-400 dark:text-gray-500">{{ $comment->comment_date?->diffForHumans() }}</span>
+                    <span class="text-sm font-semibold text-gray-900">{{ $comment->comment_author }}</span>
+                    <span class="text-xs text-gray-400">{{ $comment->comment_date?->diffForHumans() }}</span>
                 </div>
-                <div class="text-sm text-gray-700 dark:text-gray-300 leading-relaxed">
+                <div class="text-sm text-gray-700 leading-relaxed">
                     {{ $comment->comment_content }}
                 </div>
+                <button type="button"
+                        data-reply-to="{{ $comment->comment_ID }}"
+                        data-reply-author="{{ $comment->comment_author }}"
+                        class="reply-btn mt-2 text-xs text-indigo-600 hover:underline">
+                    Reply
+                </button>
             </div>
         </div>
         @foreach ($comment->replies->where('comment_approved', '1') as $reply)
@@ -34,10 +40,10 @@
                      class="size-9 rounded-full shrink-0">
                 <div class="flex-1">
                     <div class="flex items-baseline gap-3 mb-1">
-                        <span class="text-sm font-semibold text-gray-900 dark:text-gray-100">{{ $reply->comment_author }}</span>
-                        <span class="text-xs text-gray-400 dark:text-gray-500">{{ $reply->comment_date?->diffForHumans() }}</span>
+                        <span class="text-sm font-semibold text-gray-900">{{ $reply->comment_author }}</span>
+                        <span class="text-xs text-gray-400">{{ $reply->comment_date?->diffForHumans() }}</span>
                     </div>
-                    <div class="text-sm text-gray-700 dark:text-gray-300 leading-relaxed">
+                    <div class="text-sm text-gray-700 leading-relaxed">
                         {{ $reply->comment_content }}
                     </div>
                 </div>
@@ -45,5 +51,5 @@
         @endforeach
     </div>
 @empty
-    <p class="text-sm text-gray-400 dark:text-gray-500 mb-8">No comments yet. Be the first!</p>
+    <p class="text-sm text-gray-400 mb-8">No comments yet. Be the first!</p>
 @endforelse
