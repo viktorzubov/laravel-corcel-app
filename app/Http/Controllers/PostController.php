@@ -58,19 +58,7 @@ class PostController extends Controller
             ->slug($slug)
             ->firstOrFail();
 
-        $categorySlugs = array_keys($post->terms['category'] ?? []);
-
-        $related = collect();
-        if (! empty($categorySlugs)) {
-            $related = Post::type('post')
-                ->published()
-                ->with(['thumbnail'])
-                ->taxonomy('category', $categorySlugs[0])
-                ->where('ID', '!=', $post->ID)
-                ->latest('post_date')
-                ->limit(3)
-                ->get();
-        }
+        $related = Post::relatedTo($post)->get();
 
         $comments = Comment::where('comment_post_ID', $post->ID)
             ->approved()
@@ -80,15 +68,8 @@ class PostController extends Controller
             ->oldest('comment_date')
             ->get();
 
-        $previousPost = Post::type('post')->published()
-            ->where('post_date', '<', $post->post_date)
-            ->latest('post_date')
-            ->first();
-
-        $nextPost = Post::type('post')->published()
-            ->where('post_date', '>', $post->post_date)
-            ->oldest('post_date')
-            ->first();
+        $previousPost = Post::previousTo($post)->first();
+        $nextPost = Post::nextTo($post)->first();
 
         $viewCount = $post->viewCount() + 1;
         $post->saveMeta('post_views_count', $viewCount);

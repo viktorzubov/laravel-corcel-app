@@ -3,13 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
-use Corcel\Model\Taxonomy;
+use App\Models\Tag;
 
 class TagController extends Controller
 {
     public function show(string $slug)
     {
-        $tag = Taxonomy::where('taxonomy', 'post_tag')->slug($slug)->firstOrFail();
+        $tag = Tag::slug($slug)->firstOrFail();
 
         $posts = Post::type('post')
             ->published()
